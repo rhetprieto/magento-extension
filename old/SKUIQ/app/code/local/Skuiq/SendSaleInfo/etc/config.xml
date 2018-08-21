@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <modules>
+    <Skuiq_RestConnect>
+      <version>0.0.1</version>
+    </Skuiq_RestConnect>
+  </modules>
+
+  <global>
+    <models>
+      <skuiq_sendsaleinfo>
+        <class>Skuiq_SendSaleInfo_Model</class>
+      </skuiq_sendsaleinfo>
+    </models>
+
+    <events>
+      <sales_order_save_commit_after>
+        <observers>
+          <skuiq_sendsaleinfo>
+           <class>skuiq_sendsaleinfo/observer</class>
+           <method>sendSale</method>
+          </skuiq_sendsaleinfo>
+        </observers>
+      </sales_order_save_commit_after>
+    </events>
+  </global>
+</config>
