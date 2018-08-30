@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Skuiq_SyncModule::config" title="SkuIQ" module="Skuiq_SyncModule" sortOrder="44" action="skuiq_syncmodule/config" resource="Skuiq_SyncModule::Config" parent="Magento_Integration::system_extensions" />
+    </menu>
+</config>

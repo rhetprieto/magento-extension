@@ -1,0 +1,46 @@
+<?php
+/**
+ * @var \Skuiq\SyncModule\Block\Config $block
+ */
+?>
+<div class="skuiq-left-panel">
+  <img class="skuiq-mg2-logo" src="https://static.magento.com/sites/all/themes/magento/logo.svg">
+  <br>
+  <div class="arrow"></div>
+  <br><br>
+  <img class="skuiq-logo" src="http://boutiika-assets.s3.amazonaws.com/our_brand_logos/skuIQ-logo-black-small.png"/>
+</div>
+<?php if ($block->isConnected()) {?>
+  <div class="skuiq-right-panel vcenter" >
+        <div class="connect_status live"></div>
+        Connected to SkuIQ
+        <span class="details">
+        </span>
+        <br><br>
+        <div class="connect_status time"></div>
+        Syncs in real time.
+        <br><br>
+  </div>
+<?php
+} else {
+  ?>
+     <div class="skuiq-right-panel">
+       <h1>Connect your Magento to Sku IQ</h1>
+       <p class="lightgray"> Connect Magento to SkuIQ to sync data to and from Clover, Square, Lightspeed, ERPLY and more in real time. Keep inventory in sync and accurate.
+         </p>
+         <br>
+       <p id="intro_string">
+         Welcome to Sku IQ!  <a href="/auto-shop/getting-started">Here is how to get started.</a>
+       </p>
+       <br>
+       <p>
+         Questions? Complicated setup?
+         <a href="#" onclick="toggleZendeskHelp()">Contact us</a>
+         and get help from an inventory expert.
+       </p>
+       <br>
+        <a class="mg_button" target="_blank" href="<?php echo $block->getAuthUrl();?>">Access Skuiq</a>
+     </div>
+<?php
+  }
+?>

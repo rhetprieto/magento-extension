@@ -1,0 +1,94 @@
+.arrow {
+  margin: 0 auto;
+  box-sizing: border-box;
+  height: 2vw;
+  width: 2vw;
+  border-style: solid;
+  border-color: black;
+  border-width: 0px 4px 4px 0px;
+  transform: rotate(45deg);
+  transition: border-width 150ms ease-in-out;
+}
+.arrow::after{
+  clear:both;
+  display:table;
+  content:"";
+
+}
+.skuiq-logo{
+  width:200px;
+  height:72px;
+  display:block;
+  margin: 0 auto;
+}
+
+.skuiq-mg2-logo{
+  width:220px;
+  height:79px;
+  display:block;
+  margin: 0 auto;
+}
+
+.lightgray{
+  color:#70767c;
+}
+.skuiq-container{
+  float:left;
+}
+
+.skuiq-left-panel{
+  width:40%;
+  float:left;
+}
+.skuiq-right-panel{
+  width:60%;
+  float:left;
+}
+.connect_status{
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: middle;
+
+}
+
+.connect_status.live{
+  background-image: url(//sku-iq.s3.amazonaws.com/app-icons/icon-checkmark.png);
+}
+
+.connect_status.time{
+  background-image: url(//sku-iq.s3.amazonaws.com/app-icons/icon-time.png);
+}
+
+
+.mg_button{
+  padding: 10px 25px;
+  background-color: #eb5202;
+  border-color: #eb5202;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.mg_button:hover{
+    color:#ffffff;
+    background-color: #9b3d0d;
+}
+
+.vcenter{
+  margin-top:65px;
+}
+@media only screen and (max-width: 600px) {
+    .skuiq-left-panel, .skuiq-right-panel {
+        width:80vw;
+    }
+    .skuiq-right-panel {
+      margin-top:30px;
+    }
+
+
+
+}
