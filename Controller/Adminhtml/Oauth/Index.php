@@ -8,11 +8,14 @@ class Index extends \Magento\Backend\App\Action
 {
 
   /**
+   *  @var  \Magento\Store\Model\StoreManagerInterface
    *  @var \Magento\Integration\Model\IntegrationFactory
    *  @var \Magento\Integration\Model\OauthService
    *  @var \Magento\Integration\Model\AuthorizationService
    *  @var \Magento\Integration\Model\Oauth\Token
    */
+
+  protected $_storeManager;
   protected $_integrationFactory;
   protected $_oauthService;
   protected $_authorizationService;
@@ -20,12 +23,14 @@ class Index extends \Magento\Backend\App\Action
 
   protected $resultRedirect;
   /**
+   * @param \Magento\Store\Model\StoreManagerInterface $storeManager
    * @param \Magento\Integration\Model\IntegrationFactory $integrationFactory
    * @param \Magento\Integration\Model\OauthService $oauthService
    * @param \Magento\Integration\Model\AuthorizationService $authorizationService
    * @param \Magento\Integration\Model\Oauth\Token $token
    */
    public function __construct(
+     \Magento\Store\Model\StoreManagerInterface $storeManager,
      \Magento\Backend\App\Action\Context $context,
      \Magento\Integration\Model\IntegrationFactory $integrationFactory,
      \Magento\Integration\Model\OauthService $oauthService,
@@ -39,12 +44,13 @@ class Index extends \Magento\Backend\App\Action
      $this->_oauthService = $oauthService;
      $this->_authorizationService = $authorizationService;
      $this->_token = $token;
+     $this->_storeManager = $storeManager;
 
      $this->resultFactory = $context->getResultRedirectFactory();
    }
 	public function execute()
 	{
-    $name = 'SkuIQ';
+    $name = 'SkuIQ-Sync';
     $email = 'support@skuiq.com';
     $endpoint = "http://app.skuiq.test:3000/register/magento2";
 
@@ -74,30 +80,31 @@ class Index extends \Magento\Backend\App\Action
             // This integration will have full access.
             $this->_authorizationService->grantAllPermissions($integrationId);
 
-            // // We activate and authorize the token.
-            // $uri = $this->_token->createVerifierToken($consumerId);
-            //
-            // $this->_token->setType('access');
-            // $this->_token->save();
+            // We activate and authorize the token.
+            $uri = $this->_token->createVerifierToken($consumerId);
 
-            // $resultRedirect = $this->resultRedirectFactory->create();
-            // // $resultRedirect->setUrl('https://app.skuiq.com/register/magento2');
-            // $resultRedirect->setUrl('http://app.skuiq.test:3000/register/magento2');
-            // return $resultRedirect;
+            $this->_token->setType('access');
+            $this->_token->save();
+
+            $resultRedirect = $this->resultRedirectFactory->create();
+
+            $storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
+            // Get the data from the consumer to send as parameters.
+            $consumerData = $consumer->getData();
+            $myargs = array(
+                'oauth_consumer_key' => $consumerData['key'],
+                'store_base_url'     => $storeBaseUrl
+            );
+            $resultRedirect->setUrl("http://app.skuiq.test:3000/register/magento2?".http_build_query($myargs));
+            return $resultRedirect;
 
         }catch(Exception $e){
-            // We should notify that it's been errors on the process. We should give the option to "retry"
             echo 'Error : '.$e->getMessage();
         }
 
 
 	}
 }
-      protected function sendInfoToSkuiq() {
-        $resultRedirect = $this->resultRedirectFactory->create();
-        $resultRedirect->setPath('customer/account/');
-        return $resultRedirect;
-      }
       /**
        * Check current user permission
        *

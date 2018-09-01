@@ -23,7 +23,7 @@ class Config extends \Magento\Framework\View\Element\Template
 
 	public function isConnected()
 	{
-		$integrationExists = $this->_integrationFactory->create()->load('SkuIQ','name')->getData();
+		$integrationExists = $this->_integrationFactory->create()->load('SkuIQ-Sync','name')->getData();
 		if (!empty($integrationExists))
 			return TRUE;
 		else
