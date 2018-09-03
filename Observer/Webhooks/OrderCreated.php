@@ -9,7 +9,7 @@ class OrderCreated extends \Skuiq\SyncModule\Observer\Webhook{
     protected function get_event_path(){
       return [
         'path'    => 'orders/create',
-        'timeout' => 3
+        'timeout' => 10
        ];
     }
 

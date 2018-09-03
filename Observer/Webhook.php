@@ -8,7 +8,7 @@ class Webhook implements ObserverInterface
 {
   /**
    * @var  \Magento\Framework\HTTP\ZendClient
-   * @var \Psr\Log\LoggerInterface
+   * @var  \Skuiq\SyncModule\Logger\Logger
    */
 
   protected $_httpClient;
@@ -17,13 +17,13 @@ class Webhook implements ObserverInterface
 
   /**
   * @param \Magento\Framework\HTTP\ZendClient $httpClient
-  * @param \Psr\Log\LoggerInterface $logger
+  * @param \Skuiq\SyncModule\Logger\Logger $logger
   */
 
   public function __construct(
     \Magento\Framework\HTTP\ZendClient $httpClient,
     \Skuiq\SyncModule\Model\OrmSettingsFactory $OrmSettingsFactory,
-    \Psr\Log\LoggerInterface $logger
+    \Skuiq\SyncModule\Logger\Logger $logger
     )
   {
     $this->_httpClient = $httpClient;
@@ -34,8 +34,6 @@ class Webhook implements ObserverInterface
   public function execute(\Magento\Framework\Event\Observer $observer)
   {
     try {
-      $order = $observer->getEvent()->getOrder();
-
       $settings = $this->_OrmSettingsFactory->create();
       $settings = $settings->load('skuiq', 'name');
       if (!$settings['is_active'])
@@ -43,7 +41,9 @@ class Webhook implements ObserverInterface
 
       $event_path = $this->get_event_path();
       $event_data = $this->get_event_data($observer);
-      #$endpointUrl = "https://api.skuiq.com/magento2/webhooks/". $settings['store_id'] . '/' . $event_path['path'];
+
+      $this->_logger->info($event_path['path']. " - " . current($event_data)['entity_id'] );
+      //$endpointUrl = "https://api.skuiq.com/magento2/webhooks/". $settings['store_id'] . '/' . $event_path['path'];
       $endpointUrl = "http://app.skuiq.test:3000/auto-shop/magento2_oauth/" . $settings['store_id'] . '/' . $event_path['path'];
       $this->_httpClient->setUri($endpointUrl);
 

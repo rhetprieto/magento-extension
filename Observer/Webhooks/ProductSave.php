@@ -9,7 +9,7 @@ class ProductSave extends \Skuiq\SyncModule\Observer\Webhook{
     protected function get_event_path(){
       return [
         'path'    => 'products/update',
-        'timeout' => 4
+        'timeout' => 10
        ];
     }
 

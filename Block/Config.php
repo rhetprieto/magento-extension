@@ -42,7 +42,7 @@ class Config extends \Magento\Framework\View\Element\Template
 
 	public function is_webhook_active(){
 		$settings = $this->_OrmSettingsFactory->create();
-		$settings = $settings->load('SkuIQ', 'name');
+		$settings = $settings->load('skuiq', 'name');
 		return $settings['is_active'];
 	}
 
