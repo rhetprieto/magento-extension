@@ -52,7 +52,10 @@ class Index extends \Magento\Backend\App\Action
 	{
     $name = 'SkuIQ-Sync';
     $email = 'support@skuiq.com';
-    $endpoint = "http://app.skuiq.test:3000/register/magento2";
+    $endpoint = "http://app.skuiq.test:3000/register/magento2?";
+    $resultRedirect = $this->resultRedirectFactory->create();
+    $storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
+    $consumerData = array();
 
     // Code to check whether the Integration is already present or not
     $integrationExists = $this->_integrationFactory->create()->load($name,'name')->getData();
@@ -77,7 +80,7 @@ class Index extends \Magento\Backend\App\Action
             $integration->setConsumerId($consumer->getId());
             $integration->save();
 
-            // This integration will have full access.
+            // We want to have full permissions for future features release.
             $this->_authorizationService->grantAllPermissions($integrationId);
 
             // We activate and authorize the token.
@@ -85,26 +88,27 @@ class Index extends \Magento\Backend\App\Action
 
             $this->_token->setType('access');
             $this->_token->save();
-
-            $resultRedirect = $this->resultRedirectFactory->create();
-
-            $storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
             // Get the data from the consumer to send as parameters.
             $consumerData = $consumer->getData();
-            $myargs = array(
-                'oauth_consumer_key' => $consumerData['key'],
-                'store_base_url'     => $storeBaseUrl
-            );
-            $resultRedirect->setUrl("http://app.skuiq.test:3000/register/magento2?".http_build_query($myargs));
-            return $resultRedirect;
 
         }catch(Exception $e){
             echo 'Error : '.$e->getMessage();
         }
+   	  } // If the consumer already exists.
+      else {
+          $consumerID = $integrationExists['consumer_id'];
+          $consumer = $this->_oauthService->loadConsumer($consumerID);
+          $consumerData = $consumer->getData();
+      }
 
-
-	}
-}
+      $myargs = array(
+          'oauth_consumer_key' => $consumerData['key'],
+          'store_base_url'     => $storeBaseUrl
+      );
+      $resultRedirect->setUrl($endpoint .http_build_query($myargs));
+      return $resultRedirect;
+      
+  }
       /**
        * Check current user permission
        *

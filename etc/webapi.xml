@@ -7,4 +7,10 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
+    <route url="/V1/skuiq_syncmodule/activate" method="POST">
+        <service class="Skuiq\SyncModule\Api\ActivateSkuiqSyncInterface" method="activate_sync"/>
+        <resources>
+            <resource ref="Skuiq_SyncModule::Config"/>
+        </resources>
+    </route>
 </routes>

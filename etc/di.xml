@@ -2,4 +2,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Skuiq\SyncModule\Api\PreTokenServiceInterface"
                 type="Skuiq\SyncModule\Model\PreToken" />
+    <preference for="Skuiq\SyncModule\Api\ActivateSkuiqSyncInterface"
+                type="Skuiq\SyncModule\Model\ApiActivateSync" />
 </config>

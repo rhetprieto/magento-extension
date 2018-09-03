@@ -1,6 +1,15 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="sales_order_save_after">
-        <observer name="order_created" instance="Skuiq\SyncModule\Observer\OrderCreated" />
+    <event name="sales_order_invoice_pay">
+        <observer name="skuiq_syncmodule_order_created" instance="Skuiq\SyncModule\Observer\Webhooks\OrderCreated" />
+    </event>
+    <event name="sales_order_delete_after">
+        <observer name="skuiq_syncmodule_order_deleted" instance="Skuiq\SyncModule\Observer\Webhooks\OrderDelete" />
+    </event>
+    <event name="catalog_product_save_after">
+        <observer name="skuiq_syncmodule_product_save" instance="Skuiq\SyncModule\Observer\Webhooks\ProductSave" />
+    </event>
+    <event name="catalog_product_delete_after">
+        <observer name="skuiq_syncmodule_product_delete" instance="Skuiq\SyncModule\Observer\Webhooks\ProductDelete"/>
     </event>
 </config>
