@@ -92,7 +92,7 @@ class Index extends \Magento\Backend\App\Action
    	  } // If the consumer already exists.
       else {
           $consumerID = $integrationExists['consumer_id'];
-          $consumer = $this->_oauthService->loadConsumer($consumerID);
+          $consumer =  $this->_oauthService->loadConsumer($consumerID);
           $consumerData = $consumer->getData();
       }
 
