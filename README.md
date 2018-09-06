@@ -1,3 +1,1 @@
-#Magento 2 SkuIQ Extension
-#This extension, should
-#RP
+# This extensions makes the Oauth authentication process easier for the end user.

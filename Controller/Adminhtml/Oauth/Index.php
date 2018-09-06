@@ -50,14 +50,14 @@ class Index extends \Magento\Backend\App\Action
    }
 	public function execute()
 	{
-    $name = 'SkuIQ-Sync';
+    $name = 'SkuIQ';
     $email = 'support@skuiq.com';
     $endpoint = "http://app.skuiq.test:3000/register/magento2?";
     $resultRedirect = $this->resultRedirectFactory->create();
     $storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
     $consumerData = array();
 
-    // Code to check whether the Integration is already present or not
+    // Check if the integration already exists.
     $integrationExists = $this->_integrationFactory->create()->load($name,'name')->getData();
     if(empty($integrationExists)){
         $integrationData = array(
@@ -83,11 +83,6 @@ class Index extends \Magento\Backend\App\Action
             // We want to have full permissions for future features release.
             $this->_authorizationService->grantAllPermissions($integrationId);
 
-            // We activate and authorize the token.
-            $uri = $this->_token->createVerifierToken($consumerId);
-
-            $this->_token->setType('access');
-            $this->_token->save();
             // Get the data from the consumer to send as parameters.
             $consumerData = $consumer->getData();
 
@@ -107,7 +102,7 @@ class Index extends \Magento\Backend\App\Action
       );
       $resultRedirect->setUrl($endpoint .http_build_query($myargs));
       return $resultRedirect;
-      
+
   }
       /**
        * Check current user permission

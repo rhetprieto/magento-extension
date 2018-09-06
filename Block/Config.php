@@ -28,7 +28,7 @@ class Config extends \Magento\Framework\View\Element\Template
 	public function isConnected()
 	{
 		try {
-			$integrationExists = $this->_integrationFactory->create()->load('SkuIQ-Sync','name')->getData();
+			$integrationExists = $this->_integrationFactory->create()->load('SkuIQ','name')->getData();
 			if (!empty($integrationExists) && $this->is_webhook_active())
 				return true;
 			else

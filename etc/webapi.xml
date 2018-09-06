@@ -13,4 +13,10 @@
             <resource ref="Skuiq_SyncModule::Config"/>
         </resources>
     </route>
+    <route url="/V1/skuiq_syncmodule/get_store_info" method="GET">
+        <service class="Skuiq\SyncModule\Api\StoreInfoInterface" method="get_store_info"/>
+        <resources>
+            <resource ref="Magento_Backend::stores_settings"/>
+        </resources>
+    </route>
 </routes>
