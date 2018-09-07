@@ -39,7 +39,28 @@
          and get help from an inventory expert.
        </p>
        <br>
-        <a class="mg_button" target="_blank" href="<?php echo $block->getAuthUrl();?>">Access Skuiq</a>
+       <p> We have sucessfully created an integration in your Magento install. Please click on the link below to activate it and start SkuIQ! </p>
+       <form target="_blank" action="http://app.skuiq.test:3000/register/magento2?" method="post">
+        <!-- <a class="mg_button" target="_blank" href="">Access Skuiq</a> -->
+          <?php
+            $oauth = $block->getOauthData();
+            $storeInfo = $block->getStoreInfo();
+           ?>
+          <input type="hidden" name="oauth_consumer_key" value="<?php echo $oauth['oauth_consumer_key'] ?>">
+          <input type="hidden" name="store_base_url" value="<?php echo $oauth['store_base_url'] ?>">
+
+          <input type="hidden" name="signup_store_name" value="<?php echo $storeInfo['signup_store_name'] ?>">
+          <input type="hidden" name="signup_store_phone" value="<?php echo $storeInfo['signup_store_phone'] ?>">
+          <input type="hidden" name="signup_store_address1" value="<?php echo $storeInfo['signup_store_address1'] ?>">
+          <input type="hidden" name="signup_store_city" value="<?php echo $storeInfo['signup_store_city'] ?>">
+          <input type="hidden" name="signup_store_country" value="<?php echo $storeInfo['signup_store_country'] ?>">
+          <input type="hidden" name="signup_store_state" value="<?php echo $storeInfo['signup_store_state'] ?>">
+          <input type="hidden" name="signup_store_zip" value="<?php echo $storeInfo['signup_store_zip'] ?>">
+          <input type="hidden" name="magento_version" value="<?php echo $storeInfo['magento_version'] ?>">
+
+          <input class="mg_button" type="submit" value="Access Skuiq">
+
+        </form>
      </div>
 <?php
   }

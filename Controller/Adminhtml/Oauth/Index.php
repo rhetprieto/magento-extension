@@ -8,7 +8,7 @@ class Index extends \Magento\Backend\App\Action
 {
 
   /**
-   *  @var  \Magento\Store\Model\StoreManagerInterface
+   *  @var \Magento\Store\Model\StoreManagerInterface
    *  @var \Magento\Integration\Model\IntegrationFactory
    *  @var \Magento\Integration\Model\OauthService
    *  @var \Magento\Integration\Model\AuthorizationService

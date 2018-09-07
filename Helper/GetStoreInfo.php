@@ -1,12 +1,7 @@
 <?php
-namespace Skuiq\SyncModule\Model;
+namespace Skuiq\SyncModule\Helper;
 
-use Skuiq\SyncModule\Api\StoreInfoInterface as ApiInterface;
-
-/**
- * Model that contains updated cart information.
- */
-class ApiStoreInfo implements ApiInterface {
+class GetStoreInfo{
   /**
   *  @var \Magento\Store\Model\Information
   *  @var \Magento\Store\Model\Store
@@ -39,7 +34,7 @@ class ApiStoreInfo implements ApiInterface {
       $this->_productMetadata = $productMetadata;
     }
 
-    public function get_store_info() {
+    public function get() {
       try {
         $storeInfo = $this->_storeInfo->getStoreInformationObject($this->_store);
         $state = $this->_regionFactory->create()->load($storeInfo->getRegionId())->getName();
@@ -55,11 +50,9 @@ class ApiStoreInfo implements ApiInterface {
           'magento_version'       => $this->_productMetadata->getVersion()
         );
 
-        return json_encode($response);
+        return $response;
 
       } catch (\Exception $exception) {
-        $response = ['Error' => $exception->getMessage()];
-        return json_encode($response);
     }
   }
 }

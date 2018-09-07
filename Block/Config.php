@@ -5,23 +5,36 @@ class Config extends \Magento\Framework\View\Element\Template
 {
 	/**
 	 *  @var \Magento\Integration\Model\IntegrationFactory
+	 * 	@var \Magento\Integration\Model\OauthService
+	 *  @var \Magento\Store\Model\StoreManagerInterface
 	 */
 			protected $_integrationFactory;
 			protected $_OrmSettingsFactory;
+			protected $_oauthService;
+			protected $_storeManager;
+			protected $_getStoreInfo;
 
 	/**
+	*   @param \Magento\Store\Model\StoreManagerInterface $storeManager
 	 *  @param \Magento\Integration\Model\IntegrationFactory $integrationFactory
+	 * 	@param \Magento\Integration\Model\OauthService $oauthService
 	 */
 
 	public function __construct(
 		\Magento\Framework\View\Element\Template\Context $context,
+		\Magento\Store\Model\StoreManagerInterface $storeManager,
 		\Magento\Integration\Model\IntegrationFactory $integrationFactory,
-		\Skuiq\SyncModule\Model\OrmSettingsFactory $OrmSettingsFactory
+		\Magento\Integration\Model\OauthService $oauthService,
+		\Skuiq\SyncModule\Model\OrmSettingsFactory $OrmSettingsFactory,
+		\Skuiq\SyncModule\Helper\GetStoreInfo $getStoreInfo
 		)
 	{
 		parent::__construct($context);
 		$this->_integrationFactory = $integrationFactory;
 		$this->_OrmSettingsFactory = $OrmSettingsFactory;
+		$this->_oauthService = $oauthService;
+		$this->_storeManager = $storeManager;
+		$this->_getStoreInfo= $getStoreInfo;
 
 	}
 
@@ -49,5 +62,24 @@ class Config extends \Magento\Framework\View\Element\Template
 
 	public function getAuthUrl(){
     return $this->getUrl("skuiq_syncmodule/oauth"); // Controller Url
+	}
+
+	public function getOauthData(){
+		$currentIntegration = $this->_integrationFactory->create()->load('SkuIQ','name')->getData();
+		$consumerID = $currentIntegration['consumer_id'];
+		$consumer =  $this->_oauthService->loadConsumer($consumerID);
+		$consumerData = $consumer->getData();
+		$storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
+
+		$oauthData = array(
+				'oauth_consumer_key' => $consumerData['key'],
+				'store_base_url'     => $storeBaseUrl
+		);
+
+		return $oauthData;
+	}
+
+	public function getStoreInfo(){
+		return $this->_getStoreInfo->get();
 	}
 }
