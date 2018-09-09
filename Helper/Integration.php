@@ -63,6 +63,7 @@ class Integration
         return $consumerData['key'];
 
       }catch(Exception $e){
+          #TODO : Log fatal errors.
           echo 'Error : '.$e->getMessage();
       }
 

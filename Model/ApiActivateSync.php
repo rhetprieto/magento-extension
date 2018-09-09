@@ -31,10 +31,10 @@ class ApiActivateSync implements ApiInterface {
             );
             $settings = $settings->setData($data);
             $settings->save();
-            $response = ['Success' => "The connection has been sucessfully established. The setup screen has been deactivated for the customer."];
+            $response = ['success' => "The connection has been sucessfully established. The setup screen has been deactivated for the customer."];
             return json_encode($response);
           } else {
-            $response = ['Error' => "The store has already been setup."];
+            $response = ['success' => "The store has already been setup."];
             return json_encode($response);
           }
 
