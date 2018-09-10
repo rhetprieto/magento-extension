@@ -45,7 +45,7 @@ class Integration
     $newIntegration = array (
             'name'       => $name,
             'email'      => $email,
-            'status'     => '1',
+            'status'     => '0',
             'setup_type' => '0'
         );
       try{
