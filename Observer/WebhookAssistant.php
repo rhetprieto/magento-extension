@@ -38,7 +38,7 @@ class WebhookAssistant
   }
 
   public function post_to_endpoint($data_array, $store_id, $event_type, $timeout){
-
+                  #api.skuiq etc
     $endpointUrl = "http://app.skuiq.test:3000/register/magento2" . $store_id. '/' . $event_type;
     $this->_httpClient->setUri($endpointUrl);
     $this->_httpClient->setConfig(['timeout' => $timeout]);

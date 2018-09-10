@@ -39,7 +39,7 @@ class Config extends \Magento\Framework\View\Element\Template
 	}
 
 	public function isConnected()
-	{
+	{	#TODO: The integration shouldn't be only present but activated.
 		try {
 			$integrationExists = $this->_integrationFactory->create()->load('SkuIQ','name')->getData();
 			if (!empty($integrationExists) && $this->is_webhook_active())
@@ -48,6 +48,7 @@ class Config extends \Magento\Framework\View\Element\Template
 				return false;
 			}
 		catch(Exception $e){
+				#TODO: I guess I should log this.
 				echo 'Error : '.$e->getMessage();
 				return false;
 		}
