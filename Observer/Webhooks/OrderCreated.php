@@ -37,7 +37,7 @@ class OrderCreated implements ObserverInterface
       $this->_logger->info("Created/Updated Order - ". $orderData['entity_id']);
 
       $event_data = [
-          'auth'   => $store_info['auth'],
+          'auth'   => $store_info['destination'],
           'order'  => $orderData
       ];
       //Data, event and timeout.

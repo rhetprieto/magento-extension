@@ -37,7 +37,7 @@ class ProductSave implements ObserverInterface
       $this->_logger->info("New/updated product - ". $productData['entity_id']);
 
       $event_data = [
-          'auth'     => $store_info['auth'],
+          'auth'     => $store_info['destination'],
           'product'  => $productData
       ];
       //Data, event and timeout.
