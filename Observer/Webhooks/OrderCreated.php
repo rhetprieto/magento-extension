@@ -6,46 +6,49 @@ use Magento\Framework\Event\ObserverInterface;
 
 class OrderCreated implements ObserverInterface
 {
-  /**
-   * @var \Skuiq\SyncModule\Logger\Logger
-   */
+    /**
+     * @var \Skuiq\SyncModule\Observer\WebhookAssistant
+     * @var \Skuiq\SyncModule\Logger\Logger
+     */
 
-  protected $_webhookAssistant;
-  protected $_logger;
+    protected $webhookAssistant;
+    protected $logger;
 
-  /**
-  * @param \Skuiq\SyncModule\Logger\Logger $logger
-  */
+    /**
+     * @param \Skuiq\SyncModule\Observer\WebhookAssistant $webhookAssistant
+     * @param \Skuiq\SyncModule\Logger\Logger $logger
+     */
 
-  public function __construct(
-    \Skuiq\SyncModule\Observer\WebhookAssistant $webhookAssistant,
-    \Skuiq\SyncModule\Logger\Logger $logger
-    )
-  {
-    $this->_webhookAssistant = $webhookAssistant;
-    $this->_logger = $logger;
-  }
-
-  public function execute(\Magento\Framework\Event\Observer $observer)
-  {
-    try {
-      $store_info = $this->_webhookAssistant->get_store_info_if_extension_is_active();
-      if (!$store_info)
-        return;   //We ignore the webhook if still not connected.
-
-      $orderData = $observer->getEvent()->getOrder()->getData();
-      $this->_logger->info("Created/Updated Order - ". $orderData['entity_id']);
-
-      $event_data = [
-          'auth'   => $store_info['auth'],
-          'order_id'  => $orderData['entity_id']
-      ];
-      //Data, event and timeout.
-      $this->_webhookAssistant->post_to_endpoint($event_data, $store_info['store_id'] , 'sales/update', 10);
-
+    public function __construct(
+        \Skuiq\SyncModule\Observer\WebhookAssistant $webhookAssistant,
+        \Skuiq\SyncModule\Logger\Logger $logger
+    ) {
+        $this->webhookAssistant = $webhookAssistant;
+        $this->logger = $logger;
     }
-    catch (\Exception $exception){
-        $this->_logger->critical($exception);
+
+    /**
+     * @param \Magento\Framework\Event\Observer $observer
+     */
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
+        try {
+            $store_info = $this->webhookAssistant->getInfoIfActive();
+            if (!$store_info) {
+                return;   //We ignore the webhook if still not connected.
+            }
+            $order_data = $observer->getEvent()->getOrder()->getData();
+            $this->logger->info("Created/Updated Order - " . $order_data['entity_id']);
+
+            $event_data = [
+                'auth'     => $store_info['auth'],
+                'order_id' => $order_data['entity_id']
+            ];
+            //Data, event and timeout.
+            $this->webhookAssistant->postToEndpoint($event_data, $store_info['store_id'], 'sales/update', 10);
+
+        } catch (\Exception $exception) {
+            $this->logger->critical($exception);
+        }
     }
-  }
 }

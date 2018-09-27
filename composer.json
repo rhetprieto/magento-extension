@@ -4,6 +4,10 @@
     "type": "magento2-module",
     "version": "1.0.0",
     "license": "gpl/v2",
+    "require" : {
+        "php": ">=5.4.0",
+        "ext-json": "*"
+    },
     "authors": [
         {
           "name": "SkuIQ",

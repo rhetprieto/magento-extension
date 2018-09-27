@@ -9,9 +9,9 @@ class Uninstall implements UninstallInterface
 {
     public function uninstall(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
-          $installer = $setup;
-          $installer->startSetup();
-          $installer->getConnection()->dropTable($installer->getTable('skuiq_syncmodule_skuiq_settings'));
-          $installer->endSetup();
-	   }
+        $installer = $setup;
+        $installer->startSetup();
+        $installer->getConnection()->dropTable($installer->getTable('skuiq_syncmodule_skuiq_settings'));
+        $installer->endSetup();
+    }
 }

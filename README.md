@@ -1,2 +1,2 @@
-# This extensions makes the Oauth authentication process easier for the end user.
-# Also add webhooks to keep things updated.
+This extension makes the Oauth process easier for integrating your Magento with SkuIQ.
+As well, it creates additional endpoints to facilitate the communication with our systems.
