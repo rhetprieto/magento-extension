@@ -43,12 +43,11 @@ class ProductSave implements ObserverInterface
             $this->logger->info("New/updated product - " . $product_data['entity_id']);
 
             $event_data = [
-                'auth' => $store_info['auth'],
+                'auth'       => $store_info['auth'],
                 'product_id' => $product_data['entity_id']
             ];
             //Data, event and timeout.
             $this->webhookAssistant->postToEndpoint($event_data, $store_info['store_id'], 'products/update', 10);
-
         } catch (\Exception $exception) {
             $this->logger->critical($exception);
         }

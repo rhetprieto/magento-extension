@@ -41,13 +41,12 @@ class OrderDelete implements ObserverInterface
             $order_data = $observer->getEvent()->getOrder()->getData();
             $this->logger->info("Deleted Order - " . $order_data['entity_id']);
 
-            $event_data = [
-                'auth' => $store_info['auth'],
+            $event_data = array(
+                'auth'     => $store_info['auth'],
                 'order_id' => $order_data['entity_id']
-            ];
+            );
             //Data, event and timeout.
             $this->webhookAssistant->postToEndpoint($event_data, $store_info['store_id'], 'orders/update', 10);
-
         } catch (\Exception $exception) {
             $this->logger->critical($exception);
         }

@@ -1,7 +1,8 @@
 <?php
 namespace Skuiq\SyncModule\Api;
 
-interface PreTokenServiceInterface {
+interface PreTokenServiceInterface
+{
     /**
      * Gets the token.
      * @api

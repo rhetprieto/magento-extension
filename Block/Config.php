@@ -34,7 +34,8 @@ class Config extends \Magento\Framework\View\Element\Template
         \Magento\Integration\Model\OauthService $oauthService,
         \Skuiq\SyncModule\Model\OrmSettingsFactory $settingsFactory,
         \Skuiq\SyncModule\Helper\GetStoreInfo $getStoreInfo
-    ) {
+    )  {
+
         parent::__construct($context);
         $this->integrationFactory = $integrationFactory;
         $this->settingsFactory = $settingsFactory;

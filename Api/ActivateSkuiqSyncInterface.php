@@ -1,7 +1,8 @@
 <?php
 namespace Skuiq\SyncModule\Api;
 
-interface ActivateSkuiqSyncInterface {
+interface ActivateSkuiqSyncInterface
+{
     /**
      * Gets the token.
      * @api
@@ -9,5 +10,5 @@ interface ActivateSkuiqSyncInterface {
      * @param string destination
      * @return array
      */
-    public function activate_sync($store_id, $destination);
+    public function activateSync($store_id, $destination);
 }

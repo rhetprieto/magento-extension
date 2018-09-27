@@ -1,7 +1,8 @@
 <?php
 namespace Skuiq\SyncModule\Api;
 
-interface AddSwatchInterface {
+interface AddSwatchInterface
+{
     /**
      * Gets the token.
      * @api
@@ -11,5 +12,5 @@ interface AddSwatchInterface {
      * @param int value
      * @return string
      */
-    public function add_swatch($option_id, $store_id, $type, $value );
+    public function addSwatch($option_id, $store_id, $type, $value);
 }

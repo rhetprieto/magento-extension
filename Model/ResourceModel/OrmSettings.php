@@ -1,11 +1,11 @@
 <?php
-namespace Skuiq\SyncModule\Model\ResourceModel;
 
+namespace Skuiq\SyncModule\Model\ResourceModel;
 
 class OrmSettings extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
-    protected function _construct()
+    protected function __construct()
     {
-        $this->_init('skuiq_syncmodule_skuiq_settings','skuiq_syncmodule_skuiq_settings_setting_id');
+        $this->_init('skuiq_syncmodule_skuiq_settings', 'skuiq_syncmodule_skuiq_settings_setting_id');
     }
 }

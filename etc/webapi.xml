@@ -8,25 +8,25 @@
         </resources>
     </route>
     <route url="/V1/skuiq_syncmodule/activate" method="POST">
-        <service class="Skuiq\SyncModule\Api\ActivateSkuiqSyncInterface" method="activate_sync"/>
+        <service class="Skuiq\SyncModule\Api\ActivateSkuiqSyncInterface" method="activateSync"/>
         <resources>
             <resource ref="Skuiq_SyncModule::Config"/>
         </resources>
     </route>
     <route url="/V1/skuiq_syncmodule/get_store_info" method="GET">
-        <service class="Skuiq\SyncModule\Api\StoreInfoInterface" method="get_store_info"/>
+        <service class="Skuiq\SyncModule\Api\StoreInfoInterface" method="returnStoreInfo"/>
         <resources>
             <resource ref="Magento_Backend::stores_settings"/>
         </resources>
     </route>
     <route url="/V1/skuiq_syncmodule/exchange_admintoken" method="POST">
-        <service class="Skuiq\SyncModule\Api\ExchangeAdminTokenForIntegrationInterface" method="create_dynamic_integration"/>
+        <service class="Skuiq\SyncModule\Api\ExchangeAdminTokenForIntegrationInterface" method="apiCreateIntegration"/>
         <resources>
             <resource ref="Magento_Backend::stores_settings"/>
         </resources>
     </route>
     <route url="/V1/skuiq_syncmodule/products/options/add_swatch" method="POST">
-        <service class="Skuiq\SyncModule\Api\AddSwatchInterface" method="add_swatch"/>
+        <service class="Skuiq\SyncModule\Api\AddSwatchInterface" method="addSwatch"/>
         <resources>
             <resource ref="Magento_Backend::stores_settings"/>
         </resources>

@@ -5,68 +5,74 @@ namespace Skuiq\SyncModule\Helper;
 class Integration
 {
 
-  /**
-   *  @var \Magento\Integration\Model\IntegrationFactory
-   *  @var \Magento\Integration\Model\OauthService
-   *  @var \Magento\Integration\Model\AuthorizationService
-   */
+    /**
+     * @var \Magento\Integration\Model\IntegrationFactory
+     * @var \Magento\Integration\Model\OauthService
+     * @var \Magento\Integration\Model\AuthorizationService
+     * @var \Skuiq\SyncModule\Logger\Logger
+     */
 
-  protected $_integrationFactory;
-  protected $_oauthService;
-  protected $_authorizationService;
+    protected $integrationFactory;
+    protected $oauthService;
+    protected $authorizationService;
+    protected $logger;
 
-  /**
-   * @param \Magento\Integration\Model\IntegrationFactory $integrationFactory
-   * @param \Magento\Integration\Model\OauthService $oauthService
-   */
-   public function __construct(
-     \Magento\Integration\Model\IntegrationFactory $integrationFactory,
-     \Magento\Integration\Model\OauthService $oauthService,
-     \Magento\Integration\Model\AuthorizationService $authorizationService
-     )
-   {
-     $this->_integrationFactory = $integrationFactory;
-     $this->_oauthService = $oauthService;
-     $this->_authorizationService = $authorizationService;
+    /**
+     * @param \Magento\Integration\Model\IntegrationFactory $integrationFactory
+     * @param \Magento\Integration\Model\OauthService $oauthService
+     * @param \Magento\Integration\Model\AuthorizationService $authorizationService
+     * @param \Skuiq\SyncModule\Logger\Logger $logger
+     */
+    public function __construct(
+        \Magento\Integration\Model\IntegrationFactory $integrationFactory,
+        \Magento\Integration\Model\OauthService $oauthService,
+        \Magento\Integration\Model\AuthorizationService $authorizationService,
+        \Skuiq\SyncModule\Logger\Logger $logger
+    ) {
 
-   }
-	public function get_or_create_integration()
-	{
-    $name = 'SkuIQ';
-    $email = 'support@skuiq.com';
+        $this->integrationFactory = $integrationFactory;
+        $this->oauthService = $oauthService;
+        $this->authorizationService = $authorizationService;
+        $this->logger = $logger;
+    }
 
-    // Check if the integration already exists.
-    $integrationFactory = $this->_integrationFactory->create();
-    $currentIntegration = $integrationFactory->load($name,'name')->getData();
-    if (!empty($currentIntegration)) {
-      $consumerData = $this->_oauthService->loadConsumer($currentIntegration['consumer_id'])->getData();
-      return $consumerData['key'];
-      }
-    $newIntegration = array (
+    /**
+     * @return string
+     */
+    public function getOrCreateIntegration()
+    {
+        $name = 'SkuIQ';
+        $email = 'support@skuiq.com';
+
+        // Check if the integration already exists.
+        $integration_factory = $this->integrationFactory->create();
+        $current_integration = $integration_factory->load($name, 'name')->getData();
+        if (!empty($current_integration)) {
+            $consumer_data = $this->oauthService->loadConsumer($current_integration['consumer_id'])->getData();
+            return $consumer_data['key'];
+        }
+
+        $new_integration =  array(
             'name'       => $name,
             'email'      => $email,
             'status'     => '0',
             'setup_type' => '0'
         );
-      try{
-        $integration = $integrationFactory->setData($newIntegration);
-        $integration->save();
+        try {
+            $integration = $integration_factory->setData($new_integration);
+            $integration->save();
 
-        $consumer = $this->_oauthService->createConsumer(['name' => $name]);
+            $consumer = $this->oauthService->createConsumer(array('name' => $name));
 
-        $integration->setConsumerId($consumer->getId());
-        $integration->save();
+            $integration->setConsumerId($consumer->getId());
+            $integration->save();
 
-        // We want to have all permissions for future feature releases.
-        $this->_authorizationService->grantAllPermissions($integration->getId());
-        $consumerData = $consumer->getData();
-        return $consumerData['key'];
-
-      }catch(Exception $e){
-          #TODO : Log fatal errors.
-          echo 'Error : '.$e->getMessage();
-      }
-
+            // We want to have all permissions for future feature releases.
+            $this->authorizationService->grantAllPermissions($integration->getId());
+            $consumer_data = $consumer->getData();
+            return $consumer_data['key'];
+        } catch (\Exception $exception) {
+            $this->logger->critical($exception);
+        }
     }
-
 }

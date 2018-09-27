@@ -1,11 +1,12 @@
 <?php
 namespace Skuiq\SyncModule\Api;
 
-interface StoreInfoInterface {
+interface StoreInfoInterface
+{
     /**
      * Gets the token.
      * @api
      * @return array
      */
-    public function get_store_info();
+    public function returnStoreInfo();
 }

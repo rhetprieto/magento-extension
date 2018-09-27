@@ -37,13 +37,14 @@ class ProductDelete implements ObserverInterface
             if (!$store_info) {
                 return;   //We ignore the webhook if still not connected.
             }
+
             $product_data = $observer->getEvent()->getProduct()->getData();
             $this->logger->info("Deleted product - ". $product_data['entity_id']);
 
-            $event_data = [
-                'auth'     => $store_info['auth'],
+            $event_data = array(
+                'auth'        => $store_info['auth'],
                 'product_id'  => $product_data['entity_id']
-            ];
+            );
             //Data, event and timeout.
             $this->webhookAssistant->postToEndpoint($event_data, $store_info['store_id'], 'products/delete', 10);
         } catch (\Exception $exception) {
