@@ -47,7 +47,7 @@ class ProductSave implements ObserverInterface
                 'product_id' => $product_data['entity_id']
             ];
             //Data, event and timeout.
-            $this->webhookAssistant->post_to_endpoint($event_data, $store_info['store_id'], 'products/update', 10);
+            $this->webhookAssistant->postToEndpoint($event_data, $store_info['store_id'], 'products/update', 10);
 
         } catch (\Exception $exception) {
             $this->logger->critical($exception);

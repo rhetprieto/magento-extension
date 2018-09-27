@@ -3,84 +3,98 @@ namespace Skuiq\SyncModule\Block;
 
 class Config extends \Magento\Framework\View\Element\Template
 {
-	/**
-	 *  @var \Magento\Integration\Model\IntegrationFactory
-	 * 	@var \Magento\Integration\Model\OauthService
-	 *  @var \Magento\Store\Model\StoreManagerInterface
-	 */
-			protected $_integrationFactory;
-			protected $_OrmSettingsFactory;
-			protected $_oauthService;
-			protected $_storeManager;
-			protected $_getStoreInfo;
+    /**
+     * @var \Magento\Integration\Model\IntegrationFactory
+     * @var \Skuiq\SyncModule\Model\OrmSettingsFactory
+     * @var \Magento\Integration\Model\OauthService
+     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Skuiq\SyncModule\Helper\GetStoreInfo
+     */
 
-	/**
-	*   @param \Magento\Store\Model\StoreManagerInterface $storeManager
-	 *  @param \Magento\Integration\Model\IntegrationFactory $integrationFactory
-	 * 	@param \Magento\Integration\Model\OauthService $oauthService
-	 */
+    protected $integrationFactory;
+    protected $settingsFactory;
+    protected $oauthService;
+    protected $storeManager;
+    protected $getStoreInfo;
 
-	public function __construct(
-		\Magento\Framework\View\Element\Template\Context $context,
-		\Magento\Store\Model\StoreManagerInterface $storeManager,
-		\Magento\Integration\Model\IntegrationFactory $integrationFactory,
-		\Magento\Integration\Model\OauthService $oauthService,
-		\Skuiq\SyncModule\Model\OrmSettingsFactory $OrmSettingsFactory,
-		\Skuiq\SyncModule\Helper\GetStoreInfo $getStoreInfo
-		)
-	{
-		parent::__construct($context);
-		$this->_integrationFactory = $integrationFactory;
-		$this->_OrmSettingsFactory = $OrmSettingsFactory;
-		$this->_oauthService = $oauthService;
-		$this->_storeManager = $storeManager;
-		$this->_getStoreInfo= $getStoreInfo;
+    /**
+     * Config constructor.
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Integration\Model\IntegrationFactory $integrationFactory
+     * @param \Magento\Integration\Model\OauthService $oauthService
+     * @param \Skuiq\SyncModule\Model\OrmSettingsFactory $settingsFactory
+     * @param \Skuiq\SyncModule\Helper\GetStoreInfo $getStoreInfo
+     */
 
-	}
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Integration\Model\IntegrationFactory $integrationFactory,
+        \Magento\Integration\Model\OauthService $oauthService,
+        \Skuiq\SyncModule\Model\OrmSettingsFactory $settingsFactory,
+        \Skuiq\SyncModule\Helper\GetStoreInfo $getStoreInfo
+    ) {
+        parent::__construct($context);
+        $this->integrationFactory = $integrationFactory;
+        $this->settingsFactory = $settingsFactory;
+        $this->oauthService = $oauthService;
+        $this->storeManager = $storeManager;
+        $this->getStoreInfo= $getStoreInfo;
+    }
 
-	public function isConnected()
-	{	#TODO: The integration shouldn't be only present but activated.
-		try {
-			$integrationExists = $this->_integrationFactory->create()->load('SkuIQ','name')->getData();
-			if (!empty($integrationExists) && $this->is_webhook_active())
-				return true;
-			else
-				return false;
-			}
-		catch(Exception $e){
-				#TODO: I guess I should log this.
-				echo 'Error : '.$e->getMessage();
-				return false;
-		}
-	}
+    /**
+     * @return bool / true only if : The integration exists, and the integration status is 1, and webhook is active.
+     */
+    public function isConnected()
+    {
+        try {
+            $integration = $this->integrationFactory->create()->load('SkuIQ', 'name')->getData();
+            return ( !empty($integration) && $integration['status'] && $this->isWebhookActive() ) ? true : false;
+        } catch (\Exception $e) {
+            #TODO: I guess I should log this.
+            echo 'Error : '.$e->getMessage();
+            return false;
+        }
+    }
 
-	public function is_webhook_active(){
-		$settings = $this->_OrmSettingsFactory->create();
-		$settings = $settings->load('skuiq', 'name');
-		return $settings['is_active'];
-	}
+    /**
+     * @return bool
+     */
+    public function isWebhookActive()
+    {
+        $settings = $this->settingsFactory->create();
+        $settings = $settings->load('skuiq', 'name');
+        return $settings['is_active'];
+    }
 
+    /**
+     * @return string
+     */
+    public function getAuthUrl()
+    {
+        return $this->getUrl("skuiq_syncmodule/oauth"); // Controller Url
+    }
 
-	public function getAuthUrl(){
-    return $this->getUrl("skuiq_syncmodule/oauth"); // Controller Url
-	}
+    /**
+     * @return array
+     */
+    public function getOauthData()
+    {
+        $integration = $this->integrationFactory->create()->load('SkuIQ', 'name')->getData();
+        $consumer_id = $integration['consumer_id'];
+        $consumer =  $this->oauthService->loadConsumer($consumer_id);
+        $consumer_data = $consumer->getData();
+        $store_base_url = $this->storeManager->getStore()->getBaseUrl();
 
-	public function getOauthData(){
-		$currentIntegration = $this->_integrationFactory->create()->load('SkuIQ','name')->getData();
-		$consumerID = $currentIntegration['consumer_id'];
-		$consumer =  $this->_oauthService->loadConsumer($consumerID);
-		$consumerData = $consumer->getData();
-		$storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
+        return array(
+            'oauth_consumer_key' => $consumer_data['key'],
+            'store_base_url'     => $store_base_url
+        );
+    }
 
-		$oauthData = array(
-				'oauth_consumer_key' => $consumerData['key'],
-				'store_base_url'     => $storeBaseUrl
-		);
-
-		return $oauthData;
-	}
-
-	public function getStoreInfo(){
-		return $this->_getStoreInfo->get();
-	}
+    public function getStoreInfo()
+    {
+        return $this->getStoreInfo->get();
+    }
 }
