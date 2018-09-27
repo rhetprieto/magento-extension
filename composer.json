@@ -2,8 +2,8 @@
     "name": "skuiq/sync-module",
     "description": "",
     "type": "magento2-module",
-    "version": "0.0.2",
-    "license": "propietary",
+    "version": "1.0.0",
+    "license": "gpl/v2",
     "authors": [
         {
           "name": "SkuIQ",

@@ -5,7 +5,7 @@
   width: 2vw;
   border-style: solid;
   border-color: black;
-  border-width: 0px 4px 4px 0px;
+  border-width: 0 4px 4px 0px;
   transform: rotate(45deg);
   transition: border-width 150ms ease-in-out;
 }

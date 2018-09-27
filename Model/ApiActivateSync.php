@@ -3,9 +3,7 @@ namespace Skuiq\SyncModule\Model;
 
 use Skuiq\SyncModule\Api\ActivateSkuiqSyncInterface as ApiInterface;
 
-/**
- * Model that contains updated cart information.
- */
+
 class ApiActivateSync implements ApiInterface {
 
   protected $_OrmSettingsFactory;

@@ -34,6 +34,9 @@ class GetStoreInfo{
       $this->_productMetadata = $productMetadata;
     }
 
+    /**
+     * @return array
+     */
     public function get() {
       try {
         $storeInfo = $this->_storeInfo->getStoreInformationObject($this->_store);

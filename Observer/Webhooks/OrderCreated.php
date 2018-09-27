@@ -33,15 +33,15 @@ class OrderCreated implements ObserverInterface
       if (!$store_info)
         return;   //We ignore the webhook if still not connected.
 
-      $orderData = $observer->getEvent()->getInvoice()->getOrder()->getData();
+      $orderData = $observer->getEvent()->getOrder()->getData();
       $this->_logger->info("Created/Updated Order - ". $orderData['entity_id']);
 
       $event_data = [
-          'auth'   => $store_info['destination'],
-          'order'  => $orderData
+          'auth'   => $store_info['auth'],
+          'order_id'  => $orderData['entity_id']
       ];
       //Data, event and timeout.
-      $this->_webhookAssistant->post_to_endpoint($event_data, $store_info['store_id'] , 'orders/created', 10);
+      $this->_webhookAssistant->post_to_endpoint($event_data, $store_info['store_id'] , 'sales/update', 10);
 
     }
     catch (\Exception $exception){

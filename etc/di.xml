@@ -8,6 +8,8 @@
               type="Skuiq\SyncModule\Model\ApiStoreInfo" />
   <preference for="Skuiq\SyncModule\Api\ExchangeAdminTokenForIntegrationInterface"
               type="Skuiq\SyncModule\Model\ApiExchangeAdminToken" />
+  <preference for="Skuiq\SyncModule\Api\AddSwatchInterface"
+              type="Skuiq\SyncModule\Model\ApiAddSwatch" />
   <type name="Skuiq\SyncModule\Logger\Handler">
      <arguments>
          <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>

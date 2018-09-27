@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Create table 'skuiq_syncmodule_skuiq_settings'
+ */
 namespace Skuiq\SyncModule\Setup;
 
 use Magento\Framework\Setup\InstallSchemaInterface;
@@ -24,9 +26,6 @@ class InstallSchema implements InstallSchemaInterface
 
         $installer->startSetup();
 
-        /**
-         * Create table 'skuiq_syncmodule_skuiq_settings'
-         */
         $tableName = $installer->getTable('skuiq_syncmodule_skuiq_settings');
 
         $table = $connection->newTable(
@@ -49,13 +48,13 @@ class InstallSchema implements InstallSchemaInterface
             null,
             [],
             'store_id'
-				)->addColumn(
-            'destination',
+        )->addColumn(
+            'auth',
             Table::TYPE_TEXT,
             255,
             [],
-            'destination'
-				)->addColumn(
+            'auth'
+        )->addColumn(
             'is_active',
             Table::TYPE_BOOLEAN,
             null,

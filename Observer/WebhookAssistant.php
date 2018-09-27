@@ -9,28 +9,32 @@ class WebhookAssistant
    * @var  \Skuiq\SyncModule\Logger\Logger
    */
 
-  protected $_httpClient;
-  protected $_OrmSettingsFactory;
-  protected $_logger;
+    protected $httpClient;
+    protected $OrmSettingsFactory;
+    protected $logger;
 
-  /**
-  * @param \Magento\Framework\HTTP\ZendClient $httpClient
-  * @param \Skuiq\SyncModule\Logger\Logger $logger
-  */
+    /**
+     * @param \Magento\Framework\HTTP\ZendClient $httpClient
+     * @param \Skuiq\SyncModule\Model\OrmSettingsFactory $OrmSettingsFactory
+     * @param \Skuiq\SyncModule\Logger\Logger $logger
+     */
 
   public function __construct(
-    \Magento\Framework\HTTP\ZendClient $httpClient,
-    \Skuiq\SyncModule\Model\OrmSettingsFactory $OrmSettingsFactory,
-    \Skuiq\SyncModule\Logger\Logger $logger
-    )
+      \Magento\Framework\HTTP\ZendClient $httpClient,
+      \Skuiq\SyncModule\Model\OrmSettingsFactory $OrmSettingsFactory,
+      \Skuiq\SyncModule\Logger\Logger $logger
+   )
   {
-    $this->_httpClient = $httpClient;
-    $this->_OrmSettingsFactory = $OrmSettingsFactory;
-    $this->_logger = $logger;
+         $this->httpClient = $httpClient;
+    $this->OrmSettingsFactory = $OrmSettingsFactory;
+    $this->logger = $logger;
   }
 
-  public function get_store_info_if_extension_is_active(){
-    $settings = $this->_OrmSettingsFactory->create();
+    /**
+     * @return array|bool
+     */
+    public function getInfoIfActive(){
+           $settings = $this->_OrmSettingsFactory->create();
     $settings = $settings->load('skuiq', 'name');
     if (!$settings['is_active'])
       return false;   // Ignore webhook if the connection is still not set up.
@@ -38,8 +42,8 @@ class WebhookAssistant
   }
 
   public function post_to_endpoint($data_array, $store_id, $event_type, $timeout){
-                  #api.skuiq etc
-    $endpointUrl = "http://app.skuiq.test:3000/register/magento2" . $store_id. '/' . $event_type;
+
+    $endpointUrl = "http://api.skuiq.test:3000/magento2/webhooks/" . $store_id. '/' . $event_type;
     $this->_httpClient->setUri($endpointUrl);
     $this->_httpClient->setConfig(['timeout' => $timeout]);
     $this->_httpClient->setParameterPost($data_array);

@@ -37,8 +37,8 @@ class ProductDelete implements ObserverInterface
       $this->_logger->info("Deleted product - ". $productData['entity_id']);
 
       $event_data = [
-          'auth'     => $store_info['destination'],
-          'product'  => $productData
+          'auth'     => $store_info['auth'],
+          'product_id'  => $productData['entity_id']
       ];
       //Data, event and timeout.
       $this->_webhookAssistant->post_to_endpoint($event_data, $store_info['store_id'] , 'products/delete', 10);
