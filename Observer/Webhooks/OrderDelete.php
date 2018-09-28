@@ -46,7 +46,7 @@ class OrderDelete implements ObserverInterface
                 'order_id' => $order_data['entity_id']
             ];
             //Data, event and timeout.
-            $this->webhookAssistant->postToEndpoint($event_data, $store_info['store_id'], 'orders/update', 10);
+            $this->webhookAssistant->postToEndpoint($event_data, $store_info['store_id'], 'orders/delete', 10);
         } catch (\Exception $exception) {
             $this->logger->critical($exception);
         }
