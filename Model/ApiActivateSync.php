@@ -25,7 +25,7 @@ class ApiActivateSync implements ApiInterface
     /**
      * @param $store_id
      * @param $destination
-     * @return false|string
+     * @return array
      */
     public function activateSync($store_id, $auth)
     {
