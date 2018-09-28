@@ -29,9 +29,9 @@ class ApiExchangeAdminToken implements ApiInterface
     {
         try {
             $consumerKey = $this->integrationHelper->getOrCreateIntegration();
-            $response =  array(
+            $response =  [
                 "oauth_consumer_key" => $consumerKey
-            );
+            ];
             return json_encode($response);
         } catch (\Exception $exception) {
             return json_encode($exception->getMessage());

@@ -41,10 +41,10 @@ class OrderCreated implements ObserverInterface
             $order_data = $observer->getEvent()->getOrder()->getData();
             $this->logger->info("Created/Updated Order - " . $order_data['entity_id']);
 
-            $event_data = array(
+            $event_data = [
                 'auth' => $store_info['auth'],
                 'order_id' => $order_data['entity_id']
-            );
+            ];
             //Data, event and timeout.
             $this->webhookAssistant->postToEndpoint($event_data, $store_info['store_id'], 'sales/update', 10);
         } catch (\Exception $exception) {

@@ -52,17 +52,17 @@ class Integration
             return $consumer_data['key'];
         }
 
-        $new_integration =  array(
+        $new_integration =  [
             'name'       => $name,
             'email'      => $email,
             'status'     => '0',
             'setup_type' => '0'
-        );
+        ];
         try {
             $integration = $integration_factory->setData($new_integration);
             $integration->save();
 
-            $consumer = $this->oauthService->createConsumer(array('name' => $name));
+            $consumer = $this->oauthService->createConsumer(['name' => $name]);
 
             $integration->setConsumerId($consumer->getId());
             $integration->save();

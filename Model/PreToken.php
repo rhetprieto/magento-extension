@@ -60,7 +60,7 @@ class PreToken implements ApiInterface
             $consumer->setUpdatedAt($this->dateHelper->gmtDate());
             $consumer->save();
             if (!$consumer_id) {
-                $response = array('Error' => "We couldn't find an associated id.");
+                $response = ['Error' => "We couldn't find an associated id."];
                 return json_encode($response);
             }
 
@@ -73,15 +73,15 @@ class PreToken implements ApiInterface
 
             $verifier = $this->tokenFactory->create()->createVerifierToken($consumer_id);
             $store_base_url = $this->storeManager->getStore()->getBaseUrl();
-            $response = array('oauth_consumer_key' => $consumer_data['key'],
+            $response = ['oauth_consumer_key' => $consumer_data['key'],
                 'oauth_consumer_secret' => $consumer_data['secret'],
                 'store_base_url' => $store_base_url,
                 'oauth_verifier' => $verifier->getVerifier()
-            );
+            ];
             return json_encode($response);
         } catch (\Exception $exception) {
             $this->logger->critical($exception);
-            $response = array('Error' => $exception->getMessage());
+            $response = ['Error' => $exception->getMessage()];
             return json_encode($response);
         }
     }

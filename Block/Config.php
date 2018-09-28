@@ -91,10 +91,10 @@ class Config extends \Magento\Framework\View\Element\Template
         $consumer_data = $consumer->getData();
         $store_base_url = $this->storeManager->getStore()->getBaseUrl();
 
-        return array(
+        return [
             'oauth_consumer_key' => $consumer_data['key'],
             'store_base_url'     => $store_base_url
-        );
+        ];
     }
 
     public function getStoreInfo()

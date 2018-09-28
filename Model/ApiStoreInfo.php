@@ -34,7 +34,7 @@ class ApiStoreInfo implements ApiInterface
 
             return json_encode($response);
         } catch (\Exception $exception) {
-            $response = array('Error' => $exception->getMessage());
+            $response = ['Error' => $exception->getMessage()];
             return json_encode($response);
         }
     }

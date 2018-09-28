@@ -29,22 +29,22 @@ class ApiAddSwatch implements ApiInterface
             $existing_swatch = $this->_swatchFactory->create()->load($option_id, 'option_id')->getData();
             if (empty($existing_swatch)) {
                 $swatch_factory = $this->_swatchFactory->create();
-                $data = array(
+                $data = [
                     'option_id' => $option_id,
                     'store_id'  => $store_id,
                     'type'      => $type,
                     'value'     => $value
-                );
+                ];
                 $swatch = $swatch_factory->setData($data);
                 $swatch->save();
-                $response = array('success' => "Added correctly!!");
+                $response = ['success' => "Added correctly!!"];
                 return json_encode($response);
             } else {
-                $response = array('success' => "It's already there!!");
+                $response = ['success' => "It's already there!!"];
                 return json_encode($response);
             }
         } catch (\Exception $exception) {
-            $response = array('Error' => $exception->getMessage());
+            $response = ['Error' => $exception->getMessage()];
             return json_encode($response);
         }
     }

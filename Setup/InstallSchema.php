@@ -34,31 +34,31 @@ class InstallSchema implements InstallSchemaInterface
             'setting_id',
             Table::TYPE_INTEGER,
             null,
-            array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+            ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
             'Setting Id'
         )->addColumn(
             'name',
             Table::TYPE_TEXT,
             255,
-            array(),
+            [],
             'Name'
         )->addColumn(
             'store_id',
             Table::TYPE_INTEGER,
             null,
-            array(),
+            [],
             'store_id'
         )->addColumn(
             'auth',
             Table::TYPE_TEXT,
             255,
-            array(),
+            [],
             'auth'
         )->addColumn(
             'is_active',
             Table::TYPE_BOOLEAN,
             null,
-            array( 'nullable' => false ),
+            [ 'nullable' => false ],
             'Is Active'
         )->setComment(
             'SkuIQ Settings Table'

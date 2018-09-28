@@ -47,7 +47,7 @@ class GetStoreInfo
             $store_info = $this->storeInfo->getStoreInformationObject($this->_store);
             $state = $this->regionFactory->create()->load($store_info->getRegionId())->getName();
 
-            return array(
+            return [
                 'signup_store_name'     => $store_info->getName(),
                 'signup_store_phone'    => $store_info->getPhone(),
                 'signup_store_address1' => $store_info['street_line1'],
@@ -56,7 +56,7 @@ class GetStoreInfo
                 'signup_store_state'    => $state,
                 'signup_store_zip'      => $store_info->getPostcode(),
                 'magento_version'       => $this->productMetadata->getVersion()
-            );
+            ];
         } catch (\Exception $exception) {
             $this->logger->critical($exception);
         }

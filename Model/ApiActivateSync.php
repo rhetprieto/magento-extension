@@ -34,22 +34,22 @@ class ApiActivateSync implements ApiInterface
             if (empty($settings_exists)) {
                 $settings = $this->ormSettingsFactory->create();
                 //destination will store the key will use to authenticate the webhooks.
-                $data = array(
+                $data = [
                     'name'        => 'skuiq',
                     'store_id'    => $store_id,
                     'destination' => $destination,
                     'is_active'   => 1
-                );
+                ];
                 $settings = $settings->setData($data);
                 $settings->save();
-                $response = array('success' => "The connection has been sucessfully established.");
+                $response = ['success' => "The connection has been sucessfully established."];
                 return json_encode($response);
             } else {
-                $response = array('success' => "The store has already been setup.");
+                $response = ['success' => "The store has already been setup."];
                 return json_encode($response);
             }
         } catch (\Exception $exception) {
-            $response = array('Error' => $exception->getMessage());
+            $response = ['Error' => $exception->getMessage()];
             return json_encode($response);
         }
     }
