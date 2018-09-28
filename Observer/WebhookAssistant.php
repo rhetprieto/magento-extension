@@ -24,18 +24,8 @@ class WebhookAssistant
         \Magento\Framework\HTTP\ZendClient $httpClient,
         \Skuiq\SyncModule\Model\OrmSettingsFactory $settingsFactory,
         \Skuiq\SyncModule\Logger\Logger $logger
-    ) 
-{ 
-     
-     
-     
-     
-     
-     
-     
-     
-     
-    
+    ) {
+
         $this->httpClient = $httpClient;
         $this->settingsFactory = $settingsFactory;
         $this->logger = $logger;

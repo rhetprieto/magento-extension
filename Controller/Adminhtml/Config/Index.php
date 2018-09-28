@@ -9,7 +9,7 @@ class Index extends \Magento\Backend\App\Action
      * @var \Magento\Framework\View\Result\PageFactory
      */
     protected $resultPageFactory;
-    protected $_integrationHelper;
+    protected $integrationHelper;
     /**
      * Constructor
      *
@@ -21,18 +21,7 @@ class Index extends \Magento\Backend\App\Action
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Skuiq\SyncModule\Helper\Integration $integrationHelper
-    ) 
-{ 
-     
-     
-     
-     
-     
-     
-     
-     
-     
-    
+    ) {
              parent::__construct($context);
              $this->resultPageFactory = $resultPageFactory;
 
@@ -46,6 +35,6 @@ class Index extends \Magento\Backend\App\Action
     public function execute()
     {
            $this->_integrationHelper->get_or_create_integration();
-             return  $resultPage = $this->resultPageFactory->create();
+           return  $resultPage = $this->resultPageFactory->create();
     }
 }

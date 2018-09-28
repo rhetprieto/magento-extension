@@ -9,6 +9,7 @@ class Config extends \Magento\Framework\View\Element\Template
      * @var \Magento\Integration\Model\OauthService
      * @var \Magento\Store\Model\StoreManagerInterface
      * @var \Skuiq\SyncModule\Helper\GetStoreInfo
+     * @var \Skuiq\SyncModule\Logger\Logger
      */
 
     protected $integrationFactory;
@@ -16,6 +17,7 @@ class Config extends \Magento\Framework\View\Element\Template
     protected $oauthService;
     protected $storeManager;
     protected $getStoreInfo;
+    protected $logger;
 
     /**
      * Config constructor.
@@ -33,8 +35,9 @@ class Config extends \Magento\Framework\View\Element\Template
         \Magento\Integration\Model\IntegrationFactory $integrationFactory,
         \Magento\Integration\Model\OauthService $oauthService,
         \Skuiq\SyncModule\Model\OrmSettingsFactory $settingsFactory,
-        \Skuiq\SyncModule\Helper\GetStoreInfo $getStoreInfo
-    )  {
+        \Skuiq\SyncModule\Helper\GetStoreInfo $getStoreInfo,
+        \Skuiq\SyncModule\Logger\Logger $logger
+    ) {
 
         parent::__construct($context);
         $this->integrationFactory = $integrationFactory;
@@ -42,6 +45,7 @@ class Config extends \Magento\Framework\View\Element\Template
         $this->oauthService = $oauthService;
         $this->storeManager = $storeManager;
         $this->getStoreInfo= $getStoreInfo;
+        $this->logger = $logger;
     }
 
     /**
@@ -51,11 +55,10 @@ class Config extends \Magento\Framework\View\Element\Template
     {
         try {
             $integration = $this->integrationFactory->create()->load('SkuIQ', 'name')->getData();
-            return ( !empty($integration) && $integration['status'] && $this->isWebhookActive() ) ? true : false;
-        } catch (\Exception $e) {
-            #TODO: I guess I should log this.
-            echo 'Error : '.$e->getMessage();
-            return false;
+            return (!empty($integration) && $integration['status'] && $this->isWebhookActive()) ? true : false;
+        } catch (\Exception $exception) {
+                $this->logger->critical($exception);
+                return false;
         }
     }
 
