@@ -44,7 +44,7 @@ class GetStoreInfo
     public function get()
     {
         try {
-            $store_info = $this->storeInfo->getStoreInformationObject($this->_store);
+            $store_info = $this->storeInfo->getStoreInformationObject($this->store);
             $state = $this->regionFactory->create()->load($store_info->getRegionId())->getName();
 
             return [

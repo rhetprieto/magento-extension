@@ -12,7 +12,7 @@ class OrmSettings extends \Magento\Framework\Model\AbstractModel implements
     /**
      * OrmSettings constructor.
      */
-    protected function __construct()
+    public function _construct()
     {
         $this->_init('Skuiq\SyncModule\Model\ResourceModel\OrmSettings');
     }

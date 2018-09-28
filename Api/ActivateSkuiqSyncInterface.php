@@ -7,8 +7,8 @@ interface ActivateSkuiqSyncInterface
      * Gets the token.
      * @api
      * @param int store_id
-     * @param string destination
+     * @param string auth
      * @return array
      */
-    public function activateSync($store_id, $destination);
+    public function activateSync($store_id, $auth);
 }

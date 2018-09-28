@@ -27,6 +27,7 @@ class Config extends \Magento\Framework\View\Element\Template
      * @param \Magento\Integration\Model\OauthService $oauthService
      * @param \Skuiq\SyncModule\Model\OrmSettingsFactory $settingsFactory
      * @param \Skuiq\SyncModule\Helper\GetStoreInfo $getStoreInfo
+     * @param \Skuiq\SyncModule\Logger\Logger $logger
      */
 
     public function __construct(

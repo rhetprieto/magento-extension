@@ -25,7 +25,7 @@ class Index extends \Magento\Backend\App\Action
              parent::__construct($context);
              $this->resultPageFactory = $resultPageFactory;
 
-             $this->_integrationHelper = $integrationHelper;
+             $this->integrationHelper = $integrationHelper;
     }
 
     /**
@@ -34,7 +34,7 @@ class Index extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-           $this->_integrationHelper->get_or_create_integration();
+           $this->integrationHelper->getOrCreateIntegration();
            return  $resultPage = $this->resultPageFactory->create();
     }
 }

@@ -27,17 +27,17 @@ class ApiActivateSync implements ApiInterface
      * @param $destination
      * @return false|string
      */
-    public function activateSync($store_id, $destination)
+    public function activateSync($store_id, $auth)
     {
         try {
             $settings_exists = $this->ormSettingsFactory->create()->load('skuiq', 'name')->getData();
             if (empty($settings_exists)) {
                 $settings = $this->ormSettingsFactory->create();
-                //destination will store the key will use to authenticate the webhooks.
+                //auth will store the key will use to authenticate the webhooks.
                 $data = [
                     'name'        => 'skuiq',
                     'store_id'    => $store_id,
-                    'destination' => $destination,
+                    'auth'        => $auth,
                     'is_active'   => 1
                 ];
                 $settings = $settings->setData($data);
