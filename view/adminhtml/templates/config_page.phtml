@@ -30,17 +30,17 @@
          </p>
          <br>
        <p id="intro_string">
-         Welcome to Sku IQ!  <a href="/auto-shop/getting-started">Here is how to get started.</a>
+         Welcome to Sku IQ!  <a href="https://sku-iq.s3.amazonaws.com/magento2/extension-instructions.html">Here is how to get started.</a>
        </p>
        <br>
        <p>
          Questions? Complicated setup?
-         <a href="#" onclick="toggleZendeskHelp()">Contact us</a>
+         <a href="mailto:support@skuiq.com?Subject=Magento2%20Extension" target="_top">Email Us</a>
          and get help from an inventory expert.
        </p>
        <br>
        <p> We have sucessfully created an integration in your Magento install. Please click on the link below to activate it and start SkuIQ! </p>
-       <form target="_blank" action="https://app.chopzu.com/register/magento2?" method="post">
+       <form target="_blank" action="https://api.skuiq.com/register/magento2?" method="post">
           <?php
             $oauth = $block->getOauthData();
             $store_info = $block->getStoreInfo();

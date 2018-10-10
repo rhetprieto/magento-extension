@@ -53,7 +53,7 @@ class WebhookAssistant
      */
     public function postToEndpoint($data_array, $store_id, $event_type, $timeout)
     {
-        $endpoint_url = "https://api.chopzu.com/magento2/webhooks/" . $store_id. '/' . $event_type;
+        $endpoint_url = "https://api.skuiq.com/magento2/webhooks/" . $store_id. '/' . $event_type;
         $this->httpClient->setUri($endpoint_url);
         $this->httpClient->setConfig(['timeout' => $timeout]);
         $this->httpClient->setParameterPost($data_array);
